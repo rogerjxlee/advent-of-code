@@ -51,7 +51,7 @@ int evenly_divisible_values(std::vector< std::vector<int> > spreadsheet) {
 
 int main() {
   std::ifstream input;
-  input.open("day_2_input.txt");
+  input.open("input.txt");
   std::string line;
   std::vector< std::vector<int> > spreadsheet;
   while(std::getline(input, line)) {

@@ -27,7 +27,7 @@ int check_circular_halfway_around(std::string digits) {
 
 int main() {
   std::ifstream input;
-  input.open("day_1_input.txt");
+  input.open("input.txt");
   std::string digits;
   std::getline(input, digits);
   std::cout << "Part 1: " << check_circular_next(digits) << '\n';

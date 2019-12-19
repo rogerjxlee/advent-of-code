@@ -15,7 +15,7 @@ def check_circular_halfway_around(digits):
     return sum
 
 def main():
-    f = open('day_1_input.txt')
+    f = open('input.txt')
     digits = f.readline().rstrip()
     print check_circular_next(digits)
     print check_circular_halfway_around(digits)
