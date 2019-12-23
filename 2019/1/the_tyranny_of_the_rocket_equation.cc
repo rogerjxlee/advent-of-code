@@ -1,11 +1,10 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <numeric>
 #include <string>
 #include <vector>
 
-int calculate_fuel(int mass) {
-  return (mass / 3) - 2;
-}
+int calculate_fuel(int mass) { return (mass / 3) - 2; }
 
 int calculate_total_fuel(int mass) {
   int total_fuel = 0;
@@ -17,25 +16,48 @@ int calculate_total_fuel(int mass) {
   return total_fuel;
 }
 
-int calculate_total_fuel(std::vector<int>& masses) {
-  int total_fuel = 0;
-  for (int mass : masses) {
-    total_fuel += calculate_total_fuel(mass);
-  }
-  return total_fuel;
+int part1(const std::vector<int>& module_masses) {
+  return std::accumulate(
+      module_masses.begin(), module_masses.end(), 0,
+      [](int x, int y) -> int { return x + calculate_fuel(y); });
 }
 
-int main () {
-  std::ifstream input_file;
-  input_file.open("input.txt");
-  std::string line;
-  std::vector<int> input;
-  if (input_file.is_open()) {
-    while (std::getline(input_file, line)) {
-      input.push_back(std::stoi(line));
+int part2(const std::vector<int>& module_masses) {
+  return std::accumulate(
+      module_masses.begin(), module_masses.end(), 0,
+      [](int x, int y) -> int { return x + calculate_total_fuel(y); });
+}
+
+std::string get_file_contents(std::string filename) {
+  std::ifstream file(filename);
+  std::string file_contents((std::istreambuf_iterator<char>(file)),
+                            std::istreambuf_iterator<char>());
+  return file_contents;
+}
+
+std::vector<int> split(std::string input, char delimiter) {
+  std::vector<int> output;
+  int position = 0;
+  int length = 0;
+  while (position + length < input.size()) {
+    if (input[position + length] == delimiter) {
+      if (length > 0) {
+        output.push_back(std::stoi(input.substr(position, length)));
+        position += length + 1;
+        length = 0;
+      }
+    } else {
+      length++;
     }
-    input_file.close();
   }
-  
-  std::cout << calculate_total_fuel(input) << std::endl;
+  if (length > 0) {
+    output.push_back(std::stoi(input.substr(position, length)));
+  }
+  return output;
+}
+
+int main() {
+  std::vector<int> input = split(get_file_contents("input.txt"), '\n');
+  std::cout << "Part 1: " + std::to_string(part1(input)) << std::endl;
+  std::cout << "Part 2: " + std::to_string(part2(input)) << std::endl;
 }

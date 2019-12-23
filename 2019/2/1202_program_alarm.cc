@@ -74,6 +74,15 @@ Input get_input(std::vector<int> intcode_program, int target_output) {
   return Input{-1, -1};
 }
 
+int part1(const std::vector<int>& intcode_program) {
+  return run(intcode_program, 12, 2);
+}
+
+int part2(const std::vector<int>& intcode_program) {
+  Input intcode_input = get_input(intcode_program, 19690720);
+  return 100 * intcode_input.noun + intcode_input.verb;
+}
+
 int main() {
   std::ifstream input_file;
   input_file.open("input.txt");
@@ -85,8 +94,6 @@ int main() {
     }
     input_file.close();
   }
-  std::vector<int> intcode_program = input;
-  std::cout << run(intcode_program, 12, 2) << std::endl;
-  Input intcode_input = get_input(intcode_program, 19690720);
-  std::cout << 100 * intcode_input.noun + intcode_input.verb << std::endl;
+  std::cout << "Part 1: " + std::to_string(part1(input)) << std::endl;
+  std::cout << "Part 2: " + std::to_string(part2(input)) << std::endl;
 }
